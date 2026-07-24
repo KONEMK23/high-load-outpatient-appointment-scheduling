@@ -121,7 +121,7 @@
       "id": "q3",
       "kind": "core",
       "number": 6,
-      "title": "Q3 halves urgent waiting by postponing routine demand when backlog rises",
+      "title": "Q3 halves urgent waiting by shifting delay to routine patients",
       "purpose": "Explain the workload-responsive rule, result and fairness cost.",
       "visibleCopy": {
         "rule": "Postponement = round(alpha1 NU + alpha2 NU^2)",
@@ -143,7 +143,7 @@
       "id": "q4",
       "kind": "core",
       "number": 7,
-      "title": "Q4 preserves utilisation, but rebooking alone creates little urgent capacity",
+      "title": "Q4 preserves utilisation but creates little urgent capacity",
       "purpose": "Explain the on-call routine mechanism and why its improvement is modest.",
       "visibleCopy": {
         "parameters": "eta = 0.2 | L = 0 | H = 3",
@@ -192,7 +192,7 @@
       "id": "ci_table",
       "kind": "backup",
       "number": 9,
-      "title": "All reported selected-policy estimates include 95% confidence intervals",
+      "title": "Selected-policy results include full 95% confidence intervals",
       "purpose": "Provide full confidence-interval evidence for questions.",
       "visibleCopy": {
         "tableTitle": "Selected-policy results (days unless stated)",
@@ -215,7 +215,7 @@
       "id": "warmup",
       "kind": "backup",
       "number": 10,
-      "title": "The FAS conclusion is insensitive to the tested warm-up lengths",
+      "title": "FAS is insensitive to the tested warm-up lengths",
       "purpose": "Defend the selected warm-up period.",
       "visibleCopy": {
         "rows": [
@@ -233,7 +233,7 @@
       "id": "q3_screen",
       "kind": "backup",
       "number": 11,
-      "title": "Q3 was selected at the feasible boundary of the parameter screen",
+      "title": "Q3 is selected at the feasible boundary",
       "purpose": "Explain the finite parameter search and chosen Q3 coefficient.",
       "visibleCopy": {
         "selected": "Selected: alpha1 = 0, alpha2 = 0.35",
@@ -249,7 +249,7 @@
       "id": "q4_screen",
       "kind": "backup",
       "number": 12,
-      "title": "Q4 screening ruled out aggressive protection and narrowed the direct test",
+      "title": "Q4 screening rules out aggressive protection",
       "purpose": "Defend the Q4 parameters and the mixed screening/direct-validation evidence.",
       "visibleCopy": {
         "rows": [
