@@ -1,0 +1,164 @@
+{
+  "system": {
+    "urgentArrivalRatePerDay": 3.69,
+    "routineArrivalRatePerDay": 2.19,
+    "slotsPerDay": 6,
+    "nominalLoad": 0.98,
+    "overallMeanConstraintDays": 5
+  },
+  "experiment": {
+    "warmupServed": 1000,
+    "stopAtArrivals": 50000,
+    "replications": 250,
+    "confidenceLevel": 0.95,
+    "relativeHalfWidthTarget": 0.05
+  },
+  "q2": {
+    "urgentMean": 4.147618857314027,
+    "routineMean": 4.14819901597308,
+    "overallMean": 4.147829551134296,
+    "overallCI": [3.9776382383429376, 4.318020863925655],
+    "relativeHalfWidth": 0.04103141430795218,
+    "warmup": {
+      "500": {
+        "mean": 4.1332073379295675,
+        "ci": [3.964507168938908, 4.3019075069202275]
+      },
+      "1000": {
+        "mean": 4.147829551134296,
+        "ci": [3.9776382383429376, 4.318020863925655]
+      },
+      "2000": {
+        "mean": 4.171597031126426,
+        "ci": [3.998668591384816, 4.344525470868036]
+      }
+    }
+  },
+  "q3": {
+    "alpha1": 0,
+    "alpha2": 0.35,
+    "urgentMean": 2.123416974280667,
+    "urgentCI": [2.074938008716257, 2.171895939845077],
+    "routineMean": 9.052809827419521,
+    "routineCI": [8.62113318254977, 9.484486472289273],
+    "overallMean": 4.702753976854765,
+    "overallCI": [4.512624489159033, 4.892883464550496],
+    "relativeHalfWidth": 0.04042939278377726,
+    "urgentReductionDays": 2.02441257685336,
+    "urgentReductionPercent": 48.805339
+  },
+  "q4": {
+    "eta": 0.2,
+    "L": 0,
+    "H": 3,
+    "urgentMean": 4.0090591696293085,
+    "urgentCI": [3.862104540343827, 4.15601379891479],
+    "routineMean": 4.573754083738393,
+    "routineCI": [4.425944769671173, 4.721563397805613],
+    "overallMean": 4.219449679893367,
+    "overallCI": [4.072177031422903, 4.3667223283638315],
+    "relativeHalfWidth": 0.03490328351876109,
+    "utilization": 0.9791112781532182,
+    "utilizationCI": [0.9785772006178842, 0.9796453556885522],
+    "meanDaysSaved": 0.5146292846991197,
+    "urgentReductionDays": 0.1387703815049877,
+    "urgentReductionPercent": 3.345609
+  },
+  "comparison": {
+    "recommendedPolicy": "Q3 workload-responsive protection",
+    "decisionReason": "Largest reduction in urgent mean waiting while the upper 95% confidence limit for overall mean waiting remains below five days.",
+    "serviceRisk": "Routine mean waiting rises to 9.053 days, so an operational implementation needs a routine service-level guardrail."
+  },
+  "references": [
+    {
+      "authors": "Ahmadi-Javid, A.; Jalali, Z.; Klassen, K. J.",
+      "year": 2017,
+      "title": "Outpatient appointment systems in healthcare: a review of optimization studies",
+      "journal": "European Journal of Operational Research",
+      "volume": "258",
+      "issue": "1",
+      "pages": "3-34",
+      "doi": "10.1016/j.ejor.2016.06.064"
+    },
+    {
+      "authors": "Cayirli, T.; Veral, E.",
+      "year": 2003,
+      "title": "Outpatient scheduling in health care: a review of literature",
+      "journal": "Production and Operations Management",
+      "volume": "12",
+      "issue": "4",
+      "pages": "519-549",
+      "doi": "10.1111/j.1937-5956.2003.tb00218.x"
+    },
+    {
+      "authors": "Creemers, S.; Belien, J.; Lambrecht, M.",
+      "year": 2012,
+      "title": "The optimal allocation of server time slots over different classes of patients",
+      "journal": "European Journal of Operational Research",
+      "volume": "219",
+      "issue": "3",
+      "pages": "508-521",
+      "doi": "10.1016/j.ejor.2011.10.045"
+    },
+    {
+      "authors": "Dobson, G.; Hasija, S.; Pinker, E. J.",
+      "year": 2011,
+      "title": "Reserving capacity for urgent patients in primary care",
+      "journal": "Production and Operations Management",
+      "volume": "20",
+      "issue": "3",
+      "pages": "456-473",
+      "doi": "10.1111/j.1937-5956.2011.01227.x"
+    },
+    {
+      "authors": "Gupta, D.; Denton, B.",
+      "year": 2008,
+      "title": "Appointment scheduling in health care: challenges and opportunities",
+      "journal": "IIE Transactions",
+      "volume": "40",
+      "issue": "9",
+      "pages": "800-819",
+      "doi": "10.1080/07408170802165880"
+    },
+    {
+      "authors": "Izady, N.",
+      "year": 2015,
+      "title": "Appointment capacity planning in specialty clinics: a queueing approach",
+      "journal": "Operations Research",
+      "volume": "63",
+      "issue": "4",
+      "pages": "916-930",
+      "doi": "10.1287/opre.2015.1391"
+    },
+    {
+      "authors": "Keyvanshokooh, E.; Shi, C.; Van Oyen, M. P.",
+      "year": 2021,
+      "title": "Online advance scheduling with overtime: a primal-dual approach",
+      "journal": "Manufacturing & Service Operations Management",
+      "volume": "23",
+      "issue": "1",
+      "pages": "246-266",
+      "doi": "10.1287/msom.2019.0832"
+    },
+    {
+      "authors": "Patrick, J.; Puterman, M. L.",
+      "year": 2007,
+      "title": "Improving resource utilization for diagnostic services through flexible inpatient scheduling",
+      "journal": "Journal of the Operational Research Society",
+      "volume": "58",
+      "issue": "2",
+      "pages": "235-245",
+      "doi": "10.1057/palgrave.jors.2602242"
+    },
+    {
+      "authors": "Patrick, J.; Puterman, M. L.; Queyranne, M.",
+      "year": 2008,
+      "title": "Dynamic multipriority patient scheduling for a diagnostic resource",
+      "journal": "Operations Research",
+      "volume": "56",
+      "issue": "6",
+      "pages": "1507-1525",
+      "doi": "10.1287/opre.1080.0590"
+    }
+  ]
+}
