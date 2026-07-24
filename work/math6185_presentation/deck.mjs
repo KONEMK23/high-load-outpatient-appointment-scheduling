@@ -239,6 +239,15 @@ function addMetric(slide, value, label, options) {
 }
 
 function addMeanComparisonChart(slide) {
+  addText(slide, "Mean waiting time (days)", {
+    left: 110,
+    top: 164,
+    width: 320,
+    height: 24,
+    fontSize: 16,
+    bold: true,
+    color: COLORS.grey,
+  });
   slide.charts.add("bar", {
     position: { left: 82, top: 190, width: 780, height: 400 },
     categories: ["Urgent", "Routine", "Overall"],
@@ -291,14 +300,12 @@ function addMeanComparisonChart(slide) {
       majorGridlines: null,
     },
     yAxis: {
+      visible: true,
       min: 0,
       max: 10,
       majorUnit: 2,
-      title: {
-        text: "Mean waiting time (days)",
-        textStyle: { fill: COLORS.grey, fontSize: 16 },
-      },
-      textStyle: { fill: COLORS.grey, fontSize: 15 },
+      numberFormatCode: "0",
+      tickLabelPosition: "none",
       line: { style: "solid", fill: COLORS.line, width: 1 },
       majorGridlines: { style: "solid", fill: COLORS.lightGrey, width: 1 },
     },

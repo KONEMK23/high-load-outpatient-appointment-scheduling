@@ -192,7 +192,7 @@
       "id": "ci_table",
       "kind": "backup",
       "number": 9,
-      "title": "Selected-policy results include full 95% confidence intervals",
+      "title": "Full 95% confidence intervals for selected policies",
       "purpose": "Provide full confidence-interval evidence for questions.",
       "visibleCopy": {
         "tableTitle": "Selected-policy results (days unless stated)",
