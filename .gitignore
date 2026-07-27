@@ -1,2 +1,3 @@
 .worktrees/
 work/math6185_presentation/tmp/
+__pycache__/
