@@ -7,6 +7,7 @@ from docx import Document
 
 from build_bilingual_guides import (
     QA_ANSWER_TRANSLATIONS,
+    QA_QUESTION_TRANSLATIONS,
     QA_SLIDE_MAP,
     SCRIPT_EXACT_TRANSLATIONS,
     SCRIPT_SUGGESTED_TRANSLATIONS,
@@ -51,18 +52,28 @@ def verify_package(path: Path) -> None:
         check("word/styles.xml" in names, f"Missing styles.xml in {path.name}")
 
 
-def verify_qa(source_path: Path, output_path: Path) -> tuple[int, int]:
+def verify_qa(source_path: Path, output_path: Path) -> tuple[int, int, int]:
     source = Document(source_path)
     output = Document(output_path)
     source_text = paragraph_texts(source)
     output_text = paragraph_texts(output)
 
     mappings = [p.text for p in output.paragraphs if p.style.name == "PPT Mapping"]
+    question_translations = [
+        p.text for p in output.paragraphs if p.style.name == "Chinese Question"
+    ]
     translations = [
         p.text for p in output.paragraphs if p.style.name == "Chinese Translation"
     ]
     expected_mappings = [f"对应PPT：{QA_SLIDE_MAP[i]}" for i in range(1, 23)]
+    expected_question_translations = [
+        QA_QUESTION_TRANSLATIONS[i] for i in range(1, 23)
+    ]
     expected_translations = [QA_ANSWER_TRANSLATIONS[i] for i in range(1, 23)]
+    check(
+        question_translations == expected_question_translations,
+        "Q&A Chinese question translations are incomplete or out of order",
+    )
     check(mappings == expected_mappings, "Q&A PowerPoint mappings are incomplete or out of order")
     check(
         translations == expected_translations,
@@ -74,7 +85,11 @@ def verify_qa(source_path: Path, output_path: Path) -> tuple[int, int]:
             j for j, text in enumerate(output_text) if text.startswith(f"Q{i}. ")
         )
         check(
-            output_text[heading_index + 1] == expected_mappings[i - 1],
+            output_text[heading_index + 1] == expected_question_translations[i - 1],
+            f"Q{i} Chinese question is not directly below its English heading",
+        )
+        check(
+            output_text[heading_index + 2] == expected_mappings[i - 1],
             f"Q{i} mapping is not directly below its heading",
         )
         answer_index = next(
@@ -89,7 +104,7 @@ def verify_qa(source_path: Path, output_path: Path) -> tuple[int, int]:
 
     assert_subsequence(source_text, output_text, "Q&A")
     check(table_texts(source) == table_texts(output), "Q&A tables changed")
-    return len(mappings), len(translations)
+    return len(question_translations), len(mappings), len(translations)
 
 
 def verify_script(source_path: Path, output_path: Path) -> tuple[int, int]:
@@ -147,13 +162,14 @@ def main() -> None:
     paths = get_paths()
     verify_package(paths["qa_output"])
     verify_package(paths["script_output"])
-    qa_mappings, qa_translations = verify_qa(
+    qa_questions, qa_mappings, qa_translations = verify_qa(
         paths["qa_source"], paths["qa_output"]
     )
     speaker_slides, speaker_translations = verify_script(
         paths["script_source"], paths["script_output"]
     )
 
+    print(f"QA question translations: {qa_questions}")
     print(f"QA mappings: {qa_mappings}")
     print(f"QA translations: {qa_translations}")
     print(f"Speaker slides: {speaker_slides}")

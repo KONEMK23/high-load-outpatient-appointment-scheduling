@@ -38,6 +38,32 @@ QA_SLIDE_MAP = {
 }
 
 
+QA_QUESTION_TRANSLATIONS = {
+    1: "问题中文：核心的运营问题是什么？",
+    2: "问题中文：为什么最早可用时段策略是一个有用的基准？",
+    3: "问题中文：你是如何验证Q2基准结果的？",
+    4: "问题中文：为什么选择服务1,000名病人作为预热期？",
+    5: "问题中文：为什么每次重复实验在到达人数达到50,000时停止？",
+    6: "问题中文：为什么使用250次独立重复实验？",
+    7: "问题中文：这里的95%置信区间是什么意思？",
+    8: "问题中文：Q3策略是如何运行的？",
+    9: "问题中文：为什么选择alpha2等于0.35？",
+    10: "问题中文：Q3对常规病人公平吗？",
+    11: "问题中文：既然常规病人的等待时间增加了，为什么仍然推荐Q3？",
+    12: "问题中文：Q4的随叫随到常规病人策略是如何运行的？",
+    13: "问题中文：为什么选择eta等于0.2、L等于0、H等于3？",
+    14: "问题中文：为什么Q4对紧急等待时间的改善很小？",
+    15: "问题中文：97.911%的利用率是否意味着Q4更优？",
+    16: "问题中文：为什么不选择H等于2，而选择H等于3？",
+    17: "问题中文：什么是事件等价筛选？",
+    18: "问题中文：文献如何真正影响模型，而不只是用来装饰报告？",
+    19: "问题中文：模型的主要局限是什么？",
+    20: "问题中文：如果继续开展研究，下一步会做什么？",
+    21: "问题中文：这项工作中你的原创贡献是什么？",
+    22: "问题中文：你是如何使用AI辅助的？",
+}
+
+
 QA_ANSWER_TRANSLATIONS = {
     1: "中文对照：该诊所的名义负荷为0.98，因此几乎没有闲置容量。要缩短紧急病人的等待时间，就必须在不同病人类别之间重新分配延误，或者更有效地利用灵活重排预约。",
     2: "中文对照：它简单、对两类病人保持中立，而且容易解释。由于它为每位病人安排最早的空闲时段，因此可以展示在引入优先机制之前，共享系统本身的表现。",
@@ -147,6 +173,20 @@ def get_paths() -> dict[str, Path]:
 
 
 def ensure_styles(doc: Document) -> None:
+    if "Chinese Question" not in doc.styles:
+        style = doc.styles.add_style("Chinese Question", WD_STYLE_TYPE.PARAGRAPH)
+        style.base_style = doc.styles["Normal"]
+        style.font.name = "Microsoft YaHei"
+        style.font.size = Pt(10)
+        style.font.bold = True
+        style.font.color.rgb = RGBColor(55, 65, 81)
+        style.paragraph_format.space_before = Pt(0)
+        style.paragraph_format.space_after = Pt(3)
+        style.paragraph_format.keep_with_next = True
+        style.element.get_or_add_rPr().get_or_add_rFonts().set(
+            qn("w:eastAsia"), "Microsoft YaHei"
+        )
+
     if "PPT Mapping" not in doc.styles:
         style = doc.styles.add_style("PPT Mapping", WD_STYLE_TYPE.PARAGRAPH)
         style.base_style = doc.styles["Normal"]
@@ -199,8 +239,11 @@ def build_qa_guide(source: Path, target: Path) -> None:
         if paragraph.style.name == "Heading 1" and heading_match:
             current_question = int(heading_match.group(1))
             questions_seen.add(current_question)
+            chinese_question = insert_after(
+                paragraph, QA_QUESTION_TRANSLATIONS[current_question], "Chinese Question"
+            )
             insert_after(
-                paragraph,
+                chinese_question,
                 f"对应PPT：{QA_SLIDE_MAP[current_question]}",
                 "PPT Mapping",
             )

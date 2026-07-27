@@ -10,6 +10,7 @@ sys.path.insert(0, str(HERE))
 
 from build_bilingual_guides import (  # noqa: E402
     QA_ANSWER_TRANSLATIONS,
+    QA_QUESTION_TRANSLATIONS,
     QA_SLIDE_MAP,
     SCRIPT_EXACT_TRANSLATIONS,
     get_paths,
@@ -28,6 +29,17 @@ def main() -> None:
     check(
         set(QA_ANSWER_TRANSLATIONS) == set(range(1, 23)),
         "Answer translations must cover Q1-Q22",
+    )
+    check(
+        set(QA_QUESTION_TRANSLATIONS) == set(range(1, 23)),
+        "Question translations must cover Q1-Q22",
+    )
+    check(
+        all(
+            text.strip() and text.startswith("问题中文：")
+            for text in QA_QUESTION_TRANSLATIONS.values()
+        ),
+        "Every question translation must be non-empty and use the Chinese label",
     )
     check(
         all(text.strip() and text.startswith("中文对照：") for text in QA_ANSWER_TRANSLATIONS.values()),
