@@ -2,3 +2,9 @@
 work/math6185_presentation/tmp/
 work/math6185_eight_slide_package/tmp/
 __pycache__/
+
+# Completed-course archive: keep generated working files on disk, but out of Git.
+/.tmp_identifier_check/
+/tmp/
+/outputs/
+/work/
