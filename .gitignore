@@ -1,2 +1,4 @@
 .worktrees/
 work/math6185_presentation/tmp/
+work/math6185_eight_slide_package/tmp/
+__pycache__/
