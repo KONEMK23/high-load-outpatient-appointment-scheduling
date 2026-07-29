@@ -1,0 +1,438 @@
+{
+  "slides": [
+    {
+      "id": "title",
+      "kind": "core",
+      "number": 1,
+      "title": "Reducing urgent waits without overloading the clinic",
+      "purpose": "Frame the decision and state the result immediately.",
+      "visibleCopy": {
+        "subtitle": "A discrete-event simulation study of three appointment policies",
+        "headline": "Q3 cuts urgent waiting by 48.8%",
+        "support": "The overall mean remains below five days, but routine waiting rises sharply.",
+        "identity": "MATH6185 Case Study 1 | zw1f25"
+      },
+      "speakerNotes": "Good morning. This project asks how a highly utilised outpatient clinic can reduce urgent patient waiting without pushing the overall mean above five days. I modelled the same demand and capacity under three policies: first-available scheduling as a benchmark, a workload-responsive protection rule, and an on-call routine rebooking policy. The main result is clear. The workload-responsive policy, Q3, gives the largest urgent-wait reduction: from 4.148 days under first-available scheduling to 2.123 days, a reduction of 48.8%. Its overall mean is 4.703 days, so the upper end of its 95% confidence interval is still below the five-day limit. However, routine waiting rises to 9.053 days. My recommendation is therefore Q3 for the stated objective, but only with a routine service-level guardrail.",
+      "shortVersionOmissions": [
+        "Omit the list of all three policy names and move directly from the decision question to the main result."
+      ],
+      "sources": ["Simulation outputs: Q2, Q3 and Q4; report Tables 2-4."]
+    },
+    {
+      "id": "problem",
+      "kind": "core",
+      "number": 2,
+      "title": "At 98% nominal load, priority must be created rather than found",
+      "purpose": "Explain why the scheduling problem is structurally difficult and connect it to the literature.",
+      "visibleCopy": {
+        "lead": "Daily demand almost matches six available appointment slots.",
+        "facts": [
+          "Urgent arrivals: 3.69/day",
+          "Routine arrivals: 2.19/day",
+          "Capacity: 6 slots/day",
+          "Nominal load: 0.98"
+        ],
+        "literature": "Capacity protection can improve urgent access, but the cost is displaced delay for flexible or lower-priority patients.",
+        "question": "Which rule best converts scarce flexibility into shorter urgent waits?"
+      },
+      "speakerNotes": "The difficulty is not a lack of scheduling logic; it is a lack of spare capacity. Urgent arrivals average 3.69 per day and routine arrivals 2.19 per day, against six daily appointment slots. That gives a nominal load of 0.98. In that setting, a policy cannot create meaningful urgent access without changing who waits or when capacity is released. The appointment-scheduling literature makes the same point in different forms: capacity reservation, dynamic priority and flexible rebooking can protect urgent demand, but every protection mechanism creates an opportunity cost. I therefore treat the problem as a trade-off rather than a search for a policy that improves every patient class at once. The evaluation objective is to minimise urgent mean waiting while keeping the overall mean at or below five days.",
+      "shortVersionOmissions": [
+        "Omit the detailed literature mechanism examples and retain only the central trade-off."
+      ],
+      "sources": [
+        "Gupta and Denton (2008).",
+        "Dobson, Hasija and Pinker (2011).",
+        "Patrick, Puterman and Queyranne (2008)."
+      ]
+    },
+    {
+      "id": "comparison",
+      "kind": "core",
+      "number": 3,
+      "title": "Q3 wins the stated objective, but not every service outcome",
+      "purpose": "Show the answer-first comparison across all policies.",
+      "visibleCopy": {
+        "chartTitle": "Mean waiting time by policy (days)",
+        "takeaway": "Q3 delivers the largest urgent benefit; Q4 protects routine performance but achieves only a modest urgent gain.",
+        "constraint": "Overall mean constraint: <= 5 days",
+        "labels": {
+          "fas": "Q2 FAS",
+          "q3": "Q3 workload-responsive",
+          "q4": "Q4 on-call routine"
+        }
+      },
+      "speakerNotes": "This comparison is the core of the study. Under first-available scheduling, urgent, routine and overall mean waits are all about 4.148 days because the policy does not differentiate classes. Q3 changes that distribution substantially: urgent mean waiting falls to 2.123 days, while routine waiting rises to 9.053 days and the overall mean becomes 4.703 days. Q4 is more balanced, with urgent waiting at 4.009 days, routine waiting at 4.574 days and overall waiting at 4.219 days. All selected policies satisfy the five-day aggregate constraint. The reason I recommend Q3 is that the stated objective gives priority to urgent mean waiting, and Q3 improves that measure by roughly two days. The chart also makes the service risk visible: aggregate feasibility does not mean that the routine class is well served.",
+      "shortVersionOmissions": [
+        "Omit the Q4 routine and overall figures; retain the urgent comparison and the Q3 fairness warning."
+      ],
+      "sources": ["Report Table 4; 250-replication outputs for Q2-Q4."]
+    },
+    {
+      "id": "method",
+      "kind": "core",
+      "number": 4,
+      "title": "A common experiment design makes the three policies comparable",
+      "purpose": "Explain the simulation structure, warm-up, stopping rule and precision.",
+      "visibleCopy": {
+        "flow": [
+          "Poisson arrivals",
+          "Policy decision",
+          "Appointment calendar",
+          "Waiting-time outcomes"
+        ],
+        "design": [
+          "Warm-up: 1,000 served patients",
+          "Stop: 50,000 arrivals",
+          "250 independent replications",
+          "95% confidence intervals"
+        ],
+        "precision": "Relative CI half-width target: <= 5%"
+      },
+      "speakerNotes": "The three models share the same arrival and capacity assumptions so that differences are attributable to policy logic. Urgent and routine patients arrive according to independent Poisson processes. Each policy assigns or modifies an appointment in a six-slot daily calendar, and waiting time is measured from arrival to appointment. I remove the first 1,000 served patients from the statistics as warm-up, then continue each replication until 50,000 arrivals. I ran 250 independent replications and report 95% confidence intervals. The target was a relative confidence-interval half-width of at most 5% for the overall mean. The selected results meet that target: 4.10% for Q2, 4.04% for Q3 and 3.49% for Q4. This design addresses both initial transient bias and Monte Carlo uncertainty.",
+      "shortVersionOmissions": [
+        "Omit the final sentence listing all three relative half-widths."
+      ],
+      "sources": [
+        "Final AnyLogic experiment settings.",
+        "Law (2015) simulation output-analysis principles as applied in the report."
+      ]
+    },
+    {
+      "id": "q2",
+      "kind": "core",
+      "number": 5,
+      "title": "Q2 provides a stable benchmark rather than a priority solution",
+      "purpose": "Validate first-available scheduling and establish the baseline.",
+      "visibleCopy": {
+        "metric": "4.148 days",
+        "metricLabel": "overall mean waiting",
+        "ci": "95% CI [3.978, 4.318]",
+        "classResult": "Urgent 4.148 | Routine 4.148",
+        "warmupFinding": "Warm-up checks at 500, 1,000 and 2,000 served patients give overlapping confidence intervals.",
+        "interpretation": "Use FAS as the neutral comparator."
+      },
+      "speakerNotes": "Q2 is first-available scheduling. It is important because it establishes what happens when all patients compete for the earliest open slot without class protection. The overall mean is 4.148 days with a 95% confidence interval from 3.978 to 4.318 days. Urgent and routine means are essentially identical, which is exactly what we should expect from a pooled first-available rule. I also checked the warm-up choice. Using 500, 1,000 or 2,000 served patients produced overall means of 4.133, 4.148 and 4.172 days, with strongly overlapping confidence intervals. That does not prove the absence of every transient effect, but it shows the reported result is not sensitive to these reasonable warm-up choices. I therefore use Q2 as a stable and interpretable benchmark.",
+      "shortVersionOmissions": [
+        "Omit the three warm-up point estimates and state only that their confidence intervals overlap."
+      ],
+      "sources": ["Q2 250-replication output; report Section 4.1."]
+    },
+    {
+      "id": "q3",
+      "kind": "core",
+      "number": 6,
+      "title": "Q3 halves urgent waiting by shifting delay to routine patients",
+      "purpose": "Explain the workload-responsive rule, result and fairness cost.",
+      "visibleCopy": {
+        "rule": "Postponement = round(alpha1 NU + alpha2 NU^2)",
+        "parameters": "alpha1 = 0 | alpha2 = 0.35",
+        "urgent": "Urgent 2.123 days",
+        "routine": "Routine 9.053 days",
+        "overall": "Overall 4.703 days",
+        "improvement": "48.8% lower urgent mean than FAS",
+        "risk": "Routine service deteriorates substantially."
+      },
+      "speakerNotes": "Q3 protects urgent demand through a workload-responsive postponement rule. When the urgent backlog, N U, increases, selected routine appointments are moved back by the rounded value of alpha one times N U plus alpha two times N U squared. The selected setting is alpha one equal to zero and alpha two equal to 0.35, so protection grows nonlinearly with urgent congestion. The result is a large urgent improvement: mean waiting falls to 2.123 days, 48.8% below the FAS benchmark. The overall mean is 4.703 days and its 95% confidence interval ends at 4.893, so it remains feasible even under the conservative upper-limit check. The cost is clear: routine mean waiting rises to 9.053 days. This is not a hidden side effect; it is the mechanism by which scarce capacity is redirected.",
+      "shortVersionOmissions": [
+        "Omit the verbal expansion of the formula after showing it.",
+        "Omit the conservative upper-confidence-limit value if time is short."
+      ],
+      "sources": ["Q3 model logic and 250-replication output; report Sections 3.3 and 4.2."]
+    },
+    {
+      "id": "q4",
+      "kind": "core",
+      "number": 7,
+      "title": "Q4 preserves utilisation but creates little urgent capacity",
+      "purpose": "Explain the on-call routine mechanism and why its improvement is modest.",
+      "visibleCopy": {
+        "parameters": "eta = 0.2 | L = 0 | H = 3",
+        "mechanism": [
+          "Hold near-term capacity",
+          "Release unused slots",
+          "Rebook the oldest eligible OCR patient"
+        ],
+        "urgent": "Urgent 4.009 days",
+        "routine": "Routine 4.574 days",
+        "overall": "Overall 4.219 days",
+        "utilization": "97.911% slot utilisation",
+        "saving": "0.515 days saved per rebooked OCR patient"
+      },
+      "speakerNotes": "Q4 uses on-call routine patients to recover released capacity. With eta equal to 0.2, L equal to zero and H equal to three, the policy protects near-term positions and then scans for unused slots at the end of the day. When a suitable slot is released, the oldest eligible on-call routine patient is brought forward. This preserves capacity use: appointment-slot utilisation is 97.911%. Rebooked patients save 0.515 days on average. However, the urgent mean is 4.009 days, only 0.139 days or 3.3% below FAS. Routine and overall means are 4.574 and 4.219 days. The interpretation is that flexible rebooking uses released capacity efficiently, but at a nominal load of 0.98 there is little genuinely spare capacity to release. Q4 is feasible and balanced, but it does not match Q3 on the stated urgent-wait objective.",
+      "shortVersionOmissions": [
+        "Omit the detailed end-of-day selection rule and retain only hold, release and rebook."
+      ],
+      "sources": ["Q4 model logic and direct 250-replication output; report Sections 3.4 and 4.3."]
+    },
+    {
+      "id": "recommendation",
+      "kind": "core",
+      "number": 8,
+      "title": "Recommend Q3, with a routine service-level guardrail",
+      "purpose": "Resolve the decision and state limitations and next actions.",
+      "visibleCopy": {
+        "recommendation": "Choose Q3 for the stated urgent-wait objective.",
+        "evidence": [
+          "Urgent mean: 2.123 days",
+          "Overall upper 95% CI: 4.893 days",
+          "Relative half-width: 4.04%"
+        ],
+        "guardrail": "Add a routine wait limit or class-weighted objective before operational use.",
+        "next": "Next test: combine workload-responsive protection with controlled OCR release.",
+        "limitations": "Stationary demand, deterministic service, no no-shows or overtime, finite parameter search."
+      },
+      "speakerNotes": "My recommendation is Q3 because it best meets the objective I was given: minimise urgent mean waiting subject to an overall mean of no more than five days. Its urgent mean is 2.123 days, and the upper end of the overall 95% confidence interval is 4.893 days. The evidence is also sufficiently precise for this decision, with a 4.04% relative half-width. I would not implement the rule unchanged. The routine mean of 9.053 days shows that the aggregate constraint is too permissive, so an operational specification should add a maximum routine mean, a percentile service target, or explicit class weights. The model also assumes stationary demand, deterministic service and no no-shows, cancellations, deterioration or overtime. The next useful experiment is a hybrid policy that combines Q3's workload signal with controlled Q4-style release.",
+      "shortVersionOmissions": [
+        "Omit the list of alternative routine guardrail formulations.",
+        "Omit the hybrid-policy next step."
+      ],
+      "sources": ["Report conclusion and cross-policy comparison."]
+    },
+    {
+      "id": "ci_table",
+      "kind": "backup",
+      "number": 9,
+      "title": "Full 95% confidence intervals for selected policies",
+      "purpose": "Provide full confidence-interval evidence for questions.",
+      "visibleCopy": {
+        "tableTitle": "Selected-policy results (days unless stated)",
+        "rows": [
+          ["Q2 overall", "4.148", "3.978-4.318"],
+          ["Q3 urgent", "2.123", "2.075-2.172"],
+          ["Q3 routine", "9.053", "8.621-9.484"],
+          ["Q3 overall", "4.703", "4.513-4.893"],
+          ["Q4 urgent", "4.009", "3.862-4.156"],
+          ["Q4 routine", "4.574", "4.426-4.722"],
+          ["Q4 overall", "4.219", "4.072-4.367"],
+          ["Q4 utilisation", "97.911%", "97.858%-97.965%"]
+        ]
+      },
+      "speakerNotes": "This backup slide contains the full confidence intervals used in the report. The most important feasibility check is Q3 overall: its upper 95% confidence limit is 4.893 days, below the five-day constraint. The Q3 urgent interval is also far below the Q2 overall benchmark interval, supporting the conclusion that the reduction is material rather than a small Monte Carlo fluctuation.",
+      "shortVersionOmissions": [],
+      "sources": ["Q2-Q4 direct 250-replication outputs."]
+    },
+    {
+      "id": "warmup",
+      "kind": "backup",
+      "number": 10,
+      "title": "FAS is insensitive to the tested warm-up lengths",
+      "purpose": "Defend the selected warm-up period.",
+      "visibleCopy": {
+        "rows": [
+          ["500 served", "4.133", "3.965-4.302"],
+          ["1,000 served", "4.148", "3.978-4.318"],
+          ["2,000 served", "4.172", "3.999-4.345"]
+        ],
+        "takeaway": "The intervals overlap strongly; 1,000 served balances transient removal and data retention."
+      },
+      "speakerNotes": "I compared three warm-up lengths for the FAS benchmark. The point estimates move only from 4.133 to 4.172 days, and the 95% confidence intervals overlap strongly. I therefore retained 1,000 served patients as a reasonable middle choice. This is a sensitivity check, not a formal proof that 1,000 is uniquely optimal.",
+      "shortVersionOmissions": [],
+      "sources": ["Q2 warm-up sensitivity output; report Section 4.1."]
+    },
+    {
+      "id": "q3_screen",
+      "kind": "backup",
+      "number": 11,
+      "title": "Q3 is selected at the feasible boundary",
+      "purpose": "Explain the finite parameter search and chosen Q3 coefficient.",
+      "visibleCopy": {
+        "selected": "Selected: alpha1 = 0, alpha2 = 0.35",
+        "logic": "Increase nonlinear protection until the overall 95% CI approaches the five-day boundary.",
+        "warning": "The finite screen identifies the best tested setting, not a global optimum.",
+        "result": "Urgent 2.123 | Routine 9.053 | Overall 4.703"
+      },
+      "speakerNotes": "The Q3 screen increased the nonlinear coefficient while checking the aggregate feasibility condition. Alpha two equal to 0.35 was the strongest tested setting whose overall upper confidence limit remained below five days. Stronger protection increased routine and overall waiting beyond the feasible boundary. Because the search was finite, I describe this as the best tested policy rather than a proven global optimum.",
+      "shortVersionOmissions": [],
+      "sources": ["Report Section 4.2 and Q3 screening experiments."]
+    },
+    {
+      "id": "q4_screen",
+      "kind": "backup",
+      "number": 12,
+      "title": "Q4 screening rules out aggressive protection",
+      "purpose": "Defend the Q4 parameters and the mixed screening/direct-validation evidence.",
+      "visibleCopy": {
+        "rows": [
+          ["eta 0.1, H 3", "4.107", "4.691", "4.325"],
+          ["eta 0.1, H 2", "4.109", "4.323", "4.189"],
+          ["eta 0.2, H 3", "4.009", "4.574", "4.219"],
+          ["eta 0.2, H 2", "4.093", "4.304", "4.172"]
+        ],
+        "note": "H = 3, eta = 0.2 is the direct AnyLogic validation; other rows are event-equivalent screening estimates.",
+        "warning": "H = 4 was too aggressive under 98% load."
+      },
+      "speakerNotes": "The initial Q4 screen showed that protecting four of six positions was too aggressive, so the final comparison focused on H equal to two or three. The submitted setting, eta 0.2, L zero and H three, is the row directly validated in AnyLogic with 250 replications. The other rows are event-equivalent screening estimates. I did not treat H two versus H three as a formal paired comparison because the estimates came from different execution routes.",
+      "shortVersionOmissions": [],
+      "sources": ["Report Table 3 and Q4 direct output."]
+    },
+    {
+      "id": "implementation",
+      "kind": "backup",
+      "number": 13,
+      "title": "The AnyLogic models differ only at the scheduling decision",
+      "purpose": "Show ownership of model implementation.",
+      "visibleCopy": {
+        "shared": "Shared: arrivals, calendar, warm-up, stopping rule and statistics",
+        "q2": "Q2: allocate earliest available slot",
+        "q3": "Q3: observe urgent backlog and postpone selected routine bookings",
+        "q4": "Q4: end-of-day scan, release slot, rebook oldest eligible OCR patient",
+        "verification": "Independent replications use explicit random seeds and the same output definitions."
+      },
+      "speakerNotes": "All three AnyLogic files preserve the same model boundary and output definitions. Q2 allocates the earliest available slot. Q3 adds a backlog-dependent postponement action for routine bookings. Q4 adds an end-of-day event that scans for releasable slots, selects the oldest eligible on-call routine patient and reduces that patient's delay. Keeping the rest of the model common makes the policy comparison interpretable.",
+      "shortVersionOmissions": [],
+      "sources": ["Submitted Q2, Q3 and Q4 AnyLogic model structures."]
+    },
+    {
+      "id": "literature_ai",
+      "kind": "backup",
+      "number": 14,
+      "title": "Literature framing and transparent use of AI assistance",
+      "purpose": "Provide literature anchors and a concise AI-use disclosure for questions.",
+      "visibleCopy": {
+        "literature": [
+          "Reviews: Cayirli & Veral (2003); Gupta & Denton (2008); Ahmadi-Javid et al. (2017)",
+          "Capacity protection: Dobson et al. (2011); Creemers et al. (2012)",
+          "Dynamic scheduling: Patrick et al. (2008); Keyvanshokooh et al. (2021)"
+        ],
+        "ai": "AI assistance supported drafting, formatting and checking. Model choices, simulation runs, interpretation and final responsibility remain with the student."
+      },
+      "speakerNotes": "The literature was used to frame three ideas: appointment scheduling as a capacity-allocation problem, protection of urgent demand, and dynamic use of flexible capacity. AI assistance was used for drafting support, formatting and consistency checking. I made the modelling choices, ran and inspected the simulations, checked the numerical results and remain responsible for the final argument.",
+      "shortVersionOmissions": [],
+      "sources": ["Nine references listed in the submitted report."]
+    }
+  ],
+  "qa": [
+    {
+      "question": "What is the central operational problem?",
+      "answerEnglish": "The clinic operates at a nominal load of 0.98, so there is almost no spare capacity. Reducing urgent waits therefore requires reallocating delay across patient classes or using flexible rebooking more effectively.",
+      "explanationChinese": "核心不是总容量明显不足，而是容量几乎被吃满。任何优先规则都必须让另一类病人承担一部分等待，或者更有效地利用临时释放的号位。",
+      "evidence": "3.69 urgent plus 2.19 routine arrivals per day versus 6 slots per day."
+    },
+    {
+      "question": "Why is first-available scheduling a useful baseline?",
+      "answerEnglish": "It is simple, neutral between classes and easy to interpret. Because it gives the earliest open slot to every patient, it shows the performance of the shared system before priority mechanisms are introduced.",
+      "explanationChinese": "FAS 没有优先级干预，所以很适合作为基准。后续模型与它的差异可以更清楚地归因于策略本身。",
+      "evidence": "Q2 urgent, routine and overall means are all approximately 4.148 days."
+    },
+    {
+      "question": "How did you validate the Q2 benchmark?",
+      "answerEnglish": "I checked logical consistency, replication precision and warm-up sensitivity. Urgent and routine means are almost identical under a pooled rule, the relative CI half-width is 4.10%, and the tested warm-up intervals overlap.",
+      "explanationChinese": "回答时强调三层证据：结果符合模型逻辑、置信区间精度达标、不同预热长度结论一致。",
+      "evidence": "Overall mean 4.148, 95% CI 3.978-4.318; warm-up checks at 500, 1,000 and 2,000 served."
+    },
+    {
+      "question": "Why did you choose a warm-up of 1,000 served patients?",
+      "answerEnglish": "It is a middle choice supported by sensitivity analysis. Warm-ups of 500, 1,000 and 2,000 served patients produced strongly overlapping 95% confidence intervals, so the conclusion is not sensitive to the chosen value.",
+      "explanationChinese": "不要说 1,000 是唯一正确值。正确说法是：敏感性分析支持它是一个合理折中。",
+      "evidence": "Means 4.133, 4.148 and 4.172 days with overlapping intervals."
+    },
+    {
+      "question": "Why stop each replication at 50,000 arrivals?",
+      "answerEnglish": "The long run supplies enough post-warm-up observations for stable replication estimates while remaining computationally practical. Precision was then judged from the across-replication confidence interval rather than from run length alone.",
+      "explanationChinese": "50,000 到达量只是保证单次复制够长；最终是否精确还要看 250 次独立复制形成的置信区间。",
+      "evidence": "All selected overall relative confidence-interval half-widths are below 5%."
+    },
+    {
+      "question": "Why use 250 independent replications?",
+      "answerEnglish": "Independent replications provide an empirical sampling distribution for the mean and allow a conventional 95% confidence interval. Two hundred and fifty replications achieved the pre-specified relative half-width target for every selected policy.",
+      "explanationChinese": "重点是独立复制用于估计不确定性，不是单纯为了让样本看起来大。",
+      "evidence": "Relative half-widths: Q2 4.10%, Q3 4.04%, Q4 3.49%."
+    },
+    {
+      "question": "What does the 95% confidence interval mean here?",
+      "answerEnglish": "Across repeated sets of independent simulation replications, intervals constructed by the same method would contain the true steady-state mean about 95% of the time. It describes Monte Carlo uncertainty under the model, not uncertainty about whether the model assumptions are correct.",
+      "explanationChinese": "区分两类不确定性：置信区间反映仿真随机误差，不代表现实模型结构一定正确。",
+      "evidence": "Replication-level estimates and 95% intervals reported for each selected policy."
+    },
+    {
+      "question": "How does the Q3 policy work?",
+      "answerEnglish": "It observes the urgent backlog and postpones selected routine bookings by round(alpha1 NU + alpha2 NU squared). With alpha1 zero and alpha2 0.35, protection increases nonlinearly as urgent congestion grows.",
+      "explanationChinese": "NU 是紧急病人积压量。二次项让积压越高时，常规预约向后移动得越多，从而给紧急病人腾出更早号位。",
+      "evidence": "Selected parameters alpha1 = 0 and alpha2 = 0.35."
+    },
+    {
+      "question": "Why choose alpha2 = 0.35?",
+      "answerEnglish": "It was the strongest tested nonlinear protection setting whose overall upper 95% confidence limit remained below five days. Higher tested protection moved routine and overall performance beyond the feasible boundary.",
+      "explanationChinese": "这是有限参数搜索中的最佳可行点，不要声称是数学意义上的全局最优。",
+      "evidence": "Q3 overall mean 4.703; upper 95% confidence limit 4.893."
+    },
+    {
+      "question": "Is Q3 fair to routine patients?",
+      "answerEnglish": "Not under a broad notion of fairness. It meets the aggregate constraint but raises routine mean waiting to 9.053 days. I therefore recommend adding a routine service-level guardrail before operational use.",
+      "explanationChinese": "直接承认问题会更有说服力。总体均值达标并不等于各类病人都得到合理服务。",
+      "evidence": "Q3 routine mean 9.053 days, 95% CI 8.621-9.484."
+    },
+    {
+      "question": "Why recommend Q3 despite the routine delay?",
+      "answerEnglish": "Because the stated objective prioritises urgent mean waiting subject to an aggregate five-day constraint. Q3 gives the largest urgent improvement and remains feasible on that definition. My recommendation is conditional on adding a routine safeguard.",
+      "explanationChinese": "把“按题目目标最优”和“现实中可以直接实施”分开。推荐是有条件的，不是忽视常规病人的代价。",
+      "evidence": "Urgent mean falls by 48.8%; Q3 overall upper CI is 4.893 days."
+    },
+    {
+      "question": "How does the Q4 on-call routine policy work?",
+      "answerEnglish": "The policy protects near-term capacity, then uses an end-of-day event to scan for unused slots. It releases an eligible slot and brings forward the oldest eligible on-call routine patient.",
+      "explanationChinese": "Q4 的核心是先保护、再释放、最后把合适的 OCR 病人提前，而不是让号位永久空着。",
+      "evidence": "Selected setting eta = 0.2, L = 0 and H = 3."
+    },
+    {
+      "question": "Why choose eta = 0.2, L = 0 and H = 3?",
+      "answerEnglish": "Screening showed that H = 4 protected too much capacity under 98% load. The selected H = 3 setting with eta 0.2 produced the best directly validated urgent mean among the submitted alternatives while satisfying the overall constraint.",
+      "explanationChinese": "H=4 太激进；最终选项在可行性和紧急等待之间折中，并且这一行是 AnyLogic 直接验证结果。",
+      "evidence": "Q4 urgent 4.009, overall 4.219, utilisation 97.911%."
+    },
+    {
+      "question": "Why is Q4's urgent improvement small?",
+      "answerEnglish": "The system already runs at a nominal load of 0.98, so few protected slots remain genuinely unused. Rebooking preserves utilisation, but it cannot create much extra urgent capacity when demand nearly equals capacity.",
+      "explanationChinese": "这是一个系统结构解释：负荷太高，能释放出来的真实空余号位很少，所以机制有效但提升空间有限。",
+      "evidence": "Urgent reduction 0.139 days; utilisation remains 97.911%."
+    },
+    {
+      "question": "Does 97.911% utilisation mean Q4 is superior?",
+      "answerEnglish": "No. High utilisation shows that protected capacity was not heavily wasted, but the objective is urgent waiting subject to an overall constraint. Q3 performs much better on urgent waiting even though Q4 is more balanced.",
+      "explanationChinese": "利用率是辅助指标，不是最终目标。不能因为利用率高就忽略等待时间。",
+      "evidence": "Q4 urgent 4.009 days versus Q3 urgent 2.123 days."
+    },
+    {
+      "question": "Why not select H = 2 instead of H = 3?",
+      "answerEnglish": "The event-equivalent H = 2 screen had a lower overall mean and a similar urgent mean, but it was not directly comparable with the 250-replication AnyLogic result for H = 3. I therefore retained the directly validated submitted choice and did not claim a formal H = 2 versus H = 3 superiority test.",
+      "explanationChinese": "这里要诚实说明证据来源不同。H=2 的筛选结果值得后续直接验证，但当前不能当作正式配对比较。",
+      "evidence": "H = 2 event-equivalent urgent 4.093 and overall 4.172; H = 3 direct urgent 4.009 and overall 4.219."
+    },
+    {
+      "question": "What is event-equivalent screening?",
+      "answerEnglish": "It is a computational screening implementation designed to reproduce the scheduling event logic outside the final direct AnyLogic experiment. It narrows the candidate set, but the selected policy's reported result comes from direct AnyLogic validation.",
+      "explanationChinese": "筛选器用于快速缩小参数范围，不能把所有筛选结果都说成 AnyLogic 直接运行。最终选定的 Q4 参数有直接 250 次复制验证。",
+      "evidence": "Report Table 3 identifies eta 0.2, L 0, H 3 as the direct AnyLogic row."
+    },
+    {
+      "question": "How did the literature influence the model rather than merely decorate the report?",
+      "answerEnglish": "The literature shaped the mechanisms tested: pooled access as a benchmark, capacity protection for urgent patients, dynamic backlog-responsive priority and flexible rebooking of released capacity. It also motivated treating delay redistribution as a central trade-off.",
+      "explanationChinese": "不要只背作者名字。说明文献如何对应到具体机制：保护容量、动态优先级、灵活重排以及公平性权衡。",
+      "evidence": "Dobson et al. (2011), Patrick et al. (2008), Creemers et al. (2012), and the review papers."
+    },
+    {
+      "question": "What are the main model limitations?",
+      "answerEnglish": "The model assumes stationary Poisson demand, deterministic service, identical working days and no no-shows, cancellations, preferences, deterioration or overtime. The parameter searches are finite, so they do not prove global optimality.",
+      "explanationChinese": "把结构性假设和搜索局限都说出来。置信区间很窄也不能弥补模型假设与现实不一致。",
+      "evidence": "Limitations section of the final report."
+    },
+    {
+      "question": "What would you do next?",
+      "answerEnglish": "I would add a routine service-level constraint, directly validate the strongest Q4 screening candidates in AnyLogic, use common random numbers for close comparisons, and test a hybrid policy that combines Q3's backlog signal with controlled Q4-style release.",
+      "explanationChinese": "下一步应针对现有证据的薄弱点：公平约束、Q4 候选直接验证、降低比较方差、测试混合策略。",
+      "evidence": "Report conclusion and the identified H = 2 versus H = 3 evidence gap."
+    },
+    {
+      "question": "What is your original contribution in this work?",
+      "answerEnglish": "My contribution is the consistent construction and comparison of three policies under one simulation framework, the explicit feasibility check using confidence-interval upper limits, and the interpretation that Q3's gain is a redistribution of delay rather than a free efficiency improvement.",
+      "explanationChinese": "原创贡献不必夸大为新理论。可以强调统一建模、可行性判断方式和对结果机制的清晰解释。",
+      "evidence": "Common experiment design, cross-policy results and conditional recommendation."
+    },
+    {
+      "question": "How was AI assistance used?",
+      "answerEnglish": "AI assistance supported drafting, formatting and consistency checking. I selected the modelling assumptions and policies, ran and inspected the simulations, checked the numerical outputs, evaluated the trade-offs and take responsibility for the final submission and presentation.",
+      "explanationChinese": "简洁、真实、边界清楚。不要说 AI 独立完成模型或替你做决策；强调你进行了运行、检查和最终判断。",
+      "evidence": "Project workflow and the disclosure wording prepared for the presentation."
+    }
+  ]
+}

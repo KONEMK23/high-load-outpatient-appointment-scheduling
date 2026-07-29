@@ -1,0 +1,31 @@
+MATH6185 PRESENTATION PACKAGE - VISUAL QA
+
+PowerPoint / PDF
+- Slide 01 PASS - title, identity and result callout are clear.
+- Slide 02 PASS - load, demand, capacity and literature framing are legible.
+- Slide 03 FIXED/PASS - chart labels rounded to three decimals; native PowerPoint axis-title overlap removed; all values match the source data.
+- Slide 04 FIXED/PASS - process arrows now run left to right; experiment settings are legible.
+- Slide 05 PASS - Q2 benchmark and warm-up sensitivity are clear.
+- Slide 06 FIXED/PASS - title shortened to prevent wrapping; Q3 metrics are unobstructed.
+- Slide 07 FIXED/PASS - title shortened and rebooking arrows corrected; Q4 metrics are unobstructed.
+- Slide 08 PASS - recommendation, guardrail, evidence and limitations are clear.
+- Slide 09 FIXED/PASS - title shortened for native PowerPoint/PDF rendering; full CI table is legible.
+- Slide 10 FIXED/PASS - title shortened; warm-up table and conclusion are clear.
+- Slide 11 FIXED/PASS - title shortened; finite-search limitation is explicit.
+- Slide 12 FIXED/PASS - title shortened; direct AnyLogic row and screening rows are distinguished.
+- Slide 13 FIXED/PASS - connectors now run from the shared model to Q2-Q4; labels are legible.
+- Slide 14 PASS - literature framing and AI-use disclosure are clear.
+- Final PDF PASS - 14 pages, visually consistent with the final PPTX.
+
+Speaker script
+- Pages 1-9 PASS - every page inspected at full size; no clipping, overlap, orphaned heading, broken footer or accidental blank page.
+- Optional-shortening lines are visible in muted grey and each core slide begins on a new page.
+
+Q&A guide
+- Pages 1-6 PASS - every page inspected at full size; Chinese glyphs render correctly.
+- Q21 page break FIXED - the full Q21 entry now starts on page 6 rather than splitting across pages.
+- All 22 entries retain question, English answer, shaded Chinese explanation and evidence.
+
+Rendering route
+- PPTX and final presentation PDF were rendered through Microsoft PowerPoint.
+- DOCX files were exported through Microsoft Word and rasterised with Poppler because LibreOffice is not installed.
