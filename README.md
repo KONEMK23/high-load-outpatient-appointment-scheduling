@@ -1,4 +1,4 @@
-# High-Load Outpatient Appointment Scheduling
+# High-Load Outpatient Appointment Scheduling: Discrete-Event Simulation and Policy Optimisation
 
 Discrete-event simulation and policy optimisation for urgent and routine healthcare demand under high utilisation.
 
